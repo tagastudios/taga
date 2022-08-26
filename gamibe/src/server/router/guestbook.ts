@@ -5,6 +5,8 @@ export const guestbookRouter = createRouter()
 	.query("getAll", {
 		async resolve({ ctx }) {
 			try {
+				console.log(ctx);
+
 				return await ctx.prisma.guestbook.findMany({
 					select: {
 						name: true,
@@ -19,16 +21,7 @@ export const guestbookRouter = createRouter()
 			}
 		},
 	})
-	.middleware(async ({ ctx, next }) => {
-		// Any queries or mutations after this middleware will
-		// raise an error unless there is a current session
-		console.log("CTXXXXXX ", ctx);
 
-		// if (!ctx.session) {
-		// 	throw new TRPCError({ code: "UNAUTHORIZED" });
-		// }
-		return next();
-	})
 	.mutation("postMessage", {
 		input: z.object({
 			name: z.string(),

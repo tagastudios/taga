@@ -22,6 +22,6 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.js"
-  ],
+, "tsconfig.eslint.json"  ],
   "exclude": ["node_modules"]
 }
