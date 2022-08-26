@@ -1,0 +1,26 @@
+{
+	"name": "taga",
+	"version": "1.0.0",
+	"description": "taga multipurpose repo",
+	"scripts": {
+		"gamibe-d": "npm --prefix ./gamibe run dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint",
+		"postinstall": "prisma generate"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/tagastudios/taga.git"
+	},
+	"keywords": [
+		"T3",
+		"Taga"
+	],
+	"author": "Jose Tannous",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/tagastudios/taga/issues"
+	},
+	"homepage": "https://github.com/tagastudios/taga#readme"
+}
