@@ -10,13 +10,139 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Example {
-    id String @id @default(cuid())
+model User {
+    id              String           @id @default(cuid())
+    createdAt       DateTime         @default(now())
+    updatedAt       DateTime         @updatedAt
+    firstName       String
+    lastName        String
+    email           String
+    phone           String?
+    role            Role?            @relation(references: [id], fields: [roleId]) // Free or Premium or Tier
+    roleId          Int?
+    incomes         Incomes[]
+    userPreferences UserPreferences?
+    gamePreferences GamePreferences?
+    Expenses        Expenses[]
+    Debts           Debts[]
+    Goals           Goals[]
 }
 
-model Guestbook {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    name      String
-    message   String   @db.VarChar(100)
+model Role {
+    id   Int    @id @default(autoincrement())
+    type String @unique
+    User User[]
+}
+
+model UserPreferences {
+    id        Int     @id @default(autoincrement())
+    user      User    @relation(fields: [userId], references: [id])
+    userId    String  @unique
+    pushEmail Boolean
+}
+
+model GamePreferences {
+    id       Int    @id @default(autoincrement())
+    user     User   @relation(fields: [userId], references: [id])
+    userId   String @unique
+    nickname String @unique
+}
+
+model Categories {
+    id       Int        @id @default(autoincrement())
+    category String     @unique
+    Incomes  Incomes[]
+    Expenses Expenses[]
+    Debts    Debts[]
+    Goals    Goals[]
+}
+
+model PaymentTypes {
+    id       Int        @id @default(autoincrement())
+    type     String     @unique
+    Incomes  Incomes[]
+    Expenses Expenses[]
+    Debts    Debts[]
+    Goals    Goals[]
+}
+
+model RecurringTypes {
+    id       Int        @id @default(autoincrement())
+    type     String     @unique
+    Incomes  Incomes[]
+    Expenses Expenses[]
+    Debts    Debts[]
+    Goals    Goals[]
+}
+
+model Incomes {
+    id              Int             @id @default(autoincrement())
+    createdAt       DateTime        @default(now())
+    updatedAt       DateTime        @updatedAt
+    startedAt       DateTime
+    user            User            @relation(fields: [uid], references: [id])
+    uid             String
+    amount          Float
+    title           String
+    description     String
+    category        Categories?     @relation(fields: [categoriesId], references: [id])
+    categoriesId    Int?
+    paymentType     PaymentTypes?   @relation(fields: [paymentTypeId], references: [id]) // one time, recurring, etc
+    paymentTypeId   Int?
+    recurringType   RecurringTypes? @relation(fields: [recurringTypeId], references: [id]) // 1week, bi week, monthly, etc 
+    recurringTypeId Int?
+}
+
+model Expenses {
+    id              Int             @id @default(autoincrement())
+    createdAt       DateTime        @default(now())
+    updatedAt       DateTime        @updatedAt
+    startedAt       DateTime
+    user            User            @relation(fields: [uid], references: [id])
+    uid             String
+    amount          Float
+    title           String
+    description     String
+    category        Categories?     @relation(fields: [categoriesId], references: [id])
+    categoriesId    Int?
+    paymentType     PaymentTypes?   @relation(fields: [paymentTypeId], references: [id]) // one time, recurring, etc
+    paymentTypeId   Int?
+    recurringType   RecurringTypes? @relation(fields: [recurringTypeId], references: [id]) // 1week, bi week, monthly, etc 
+    recurringTypeId Int?
+}
+
+model Debts {
+    id              Int             @id @default(autoincrement())
+    createdAt       DateTime        @default(now())
+    updatedAt       DateTime        @updatedAt
+    startedAt       DateTime
+    user            User            @relation(fields: [uid], references: [id])
+    uid             String
+    amount          Float
+    title           String
+    description     String
+    category        Categories?     @relation(fields: [categoriesId], references: [id])
+    categoriesId    Int?
+    paymentType     PaymentTypes?   @relation(fields: [paymentTypeId], references: [id]) // one time, recurring, etc
+    paymentTypeId   Int?
+    recurringType   RecurringTypes? @relation(fields: [recurringTypeId], references: [id]) // 1week, bi week, monthly, etc 
+    recurringTypeId Int?
+}
+
+model Goals {
+    id              Int             @id @default(autoincrement())
+    createdAt       DateTime        @default(now())
+    updatedAt       DateTime        @updatedAt
+    startedAt       DateTime
+    user            User            @relation(fields: [uid], references: [id])
+    uid             String
+    amount          Float
+    title           String
+    description     String
+    category        Categories?     @relation(fields: [categoriesId], references: [id])
+    categoriesId    Int?
+    paymentType     PaymentTypes?   @relation(fields: [paymentTypeId], references: [id]) // one time, recurring, etc
+    paymentTypeId   Int?
+    recurringType   RecurringTypes? @relation(fields: [recurringTypeId], references: [id]) // 1week, bi week, monthly, etc 
+    recurringTypeId Int?
 }

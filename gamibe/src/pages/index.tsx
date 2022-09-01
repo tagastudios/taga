@@ -25,25 +25,27 @@ const Home: NextPage = () => {
 					Tutorial for <code>create-t3-app</code>
 				</p>
 				<div className="py-10">
-					<Messages />
+					<Users />
 				</div>
 			</main>
 		</>
 	);
 };
 
-const Messages = () => {
-	const { data: messages, isLoading } = trpc.useQuery(["guestbook.getAll"]);
+const Users = () => {
+	const { data: users, isLoading } = trpc.useQuery(["user.getAll"]);
 
 	if (isLoading) return <div>Fetching messages...</div>;
 
 	return (
 		<div className="flex flex-col gap-4">
-			{messages?.map((msg, index) => {
+			{users?.map((user, index) => {
 				return (
 					<div key={index}>
-						<p>{msg.message}</p>
-						<span>- {msg.name}</span>
+						<p>
+							User {index + 1}: {user.firstName} {user.lastName}
+						</p>
+						<span>Email: {user.email}</span>
 					</div>
 				);
 			})}

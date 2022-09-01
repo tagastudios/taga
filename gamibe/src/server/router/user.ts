@@ -1,16 +1,17 @@
 import { z } from "zod";
 import { createRouter } from "./context";
 
-export const guestbookRouter = createRouter()
+export const userRouter = createRouter()
 	.query("getAll", {
 		async resolve({ ctx }) {
 			try {
 				console.log(ctx);
 
-				return await ctx.prisma.guestbook.findMany({
+				return await ctx.prisma.user.findMany({
 					select: {
-						name: true,
-						message: true,
+						firstName: true,
+						lastName: true,
+						email: true,
 					},
 					orderBy: {
 						createdAt: "desc",
@@ -22,17 +23,19 @@ export const guestbookRouter = createRouter()
 		},
 	})
 
-	.mutation("postMessage", {
+	.mutation("createUser", {
 		input: z.object({
-			name: z.string(),
-			message: z.string(),
+			firstName: z.string(),
+			lastName: z.string(),
+			email: z.string(),
 		}),
 		async resolve({ ctx, input }) {
 			try {
-				await ctx.prisma.guestbook.create({
+				await ctx.prisma.user.create({
 					data: {
-						name: input.name,
-						message: input.message,
+						firstName: input.firstName,
+						lastName: input.lastName,
+						email: input.email,
 					},
 				});
 			} catch (error) {

@@ -3,11 +3,8 @@
 	"version": "1.0.0",
 	"description": "taga multipurpose repo",
 	"scripts": {
-		"gamibe-d": "npm --prefix ./gamibe run dev",
-		"build": "next build",
-		"start": "next start",
-		"lint": "next lint",
-		"postinstall": "prisma generate"
+		"gamibe-dev": "npm --prefix ./gamibe run dev",
+		"gamibe-prisma": "npm --prefix ./gamibe run postinstall && npm --prefix ./gamibe run push-db "
 	},
 	"repository": {
 		"type": "git",
