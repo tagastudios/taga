@@ -4,7 +4,8 @@
 	"description": "taga multipurpose repo",
 	"scripts": {
 		"gamibe-dev": "concurrently --kill-others \"npm --prefix ./gamibe run dev\" \"npm --prefix ./gamibe run prisma-studio\"",
-		"gamibe-prisma": "npm --prefix ./gamibe run prisma-generate && npm --prefix ./gamibe run prisma-push-db"
+		"gamibe-prisma": "npm --prefix ./gamibe run prisma-generate && npm --prefix ./gamibe run prisma-push-db",
+		"gamibe-build": "npm --prefix ./gamibe run build && git add . && git commit -m \"build push\" && git push -u origin master"
 	},
 	"repository": {
 		"type": "git",
