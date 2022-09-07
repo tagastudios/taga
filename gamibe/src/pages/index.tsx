@@ -1,8 +1,11 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import Icons from "../components/UI/Icons";
 import { trpc } from "../utils/trpc";
+import { useState } from "react";
 
 const Home: NextPage = () => {
+	const [hover, setHover] = useState(false);
 	const hello = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
 
 	return (
@@ -39,8 +42,21 @@ const Home: NextPage = () => {
 					<button
 						className="transition-all ease-out duration-300  hover:bg-emerald-500 hover:border-solid hover:rounded-3xl hover:font-bold p-2 w-52 border-teal-500 border-dashed border-2 rounded-lg shadow-lg
 					hover:shadow-teal-600/50 active:bg-emerald-600"
+						onMouseEnter={() => setHover(true)}
+						onMouseLeave={() => setHover(false)}
 					>
-						Login
+						<div className="flex justify-center items-center">
+							<Icons
+								icon="login"
+								size={20}
+								fill=""
+								color={hover ? "white" : "rgb(16, 185, 129)"}
+								strokeWidth={hover ? 2.5 : 1.5}
+							/>
+							<div className={hover ? "text-white" : "text-emerald-500 "}>
+								Login
+							</div>
+						</div>
 					</button>
 				</div>
 			</main>
