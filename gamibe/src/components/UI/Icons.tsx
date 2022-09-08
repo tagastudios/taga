@@ -8,7 +8,7 @@ const DEFAULT_VALUES = {
 };
 
 type Props = {
-	icon: "login";
+	icon?: string;
 	size: number;
 	color?: string;
 	fill?: string;
@@ -35,11 +35,7 @@ const Icons = ({ icon, size, color, fill, strokeWidth }: Props) => {
 			</div>
 		);
 
-	return (
-		<div>
-			<p>Pass Icon Prop</p>
-		</div>
-	);
+	return null;
 };
 
 export default Icons;

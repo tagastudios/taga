@@ -1,13 +1,9 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Icons from "../components/UI/Icons";
-import { trpc } from "../utils/trpc";
-import { useState } from "react";
+
+import TestFetch from "../services/TestFetch";
 
 const Home: NextPage = () => {
-	const [hover, setHover] = useState(false);
-	const hello = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
-
 	return (
 		<>
 			<Head>
@@ -19,69 +15,8 @@ const Home: NextPage = () => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			<main className="container mx-auto flex flex-col items-center justify-center min-h-screen p-4">
-				<h1
-					className="text-5xl md:text-[5rem] leading-normal font-extrabold bg-gradient-to-r from-blue-400 via-emerald-100
-				to-emerald-600 bg-clip-text text-transparent"
-				>
-					Gamibe
-				</h1>
-				<div className="pt-6 text-2xl">
-					<h2>Example Test:</h2>
-					<hr className="border-emerald-500" />
-					{hello.data ? <p>{hello.data.greeting}</p> : <p>Loading..</p>}
-				</div>
-
-				<div className="py-10 text-xl">
-					<h2>Users No Auth Test:</h2>
-					<hr className="border-emerald-500" />
-					<Users />
-				</div>
-
-				<div className="pt-5">
-					<button
-						className="transition-all ease-out duration-300  hover:bg-emerald-500 hover:border-solid hover:rounded-3xl hover:font-bold p-2 w-52 border-teal-500 border-dashed border-2 rounded-lg shadow-lg
-					hover:shadow-teal-600/50 active:bg-emerald-600"
-						onMouseEnter={() => setHover(true)}
-						onMouseLeave={() => setHover(false)}
-					>
-						<div className="flex justify-center items-center">
-							<Icons
-								icon="login"
-								size={20}
-								fill=""
-								color={hover ? "white" : "rgb(16, 185, 129)"}
-								strokeWidth={hover ? 2.5 : 1.5}
-							/>
-							<div className={hover ? "text-white" : "text-emerald-500 "}>
-								Login
-							</div>
-						</div>
-					</button>
-				</div>
-			</main>
+			<TestFetch />
 		</>
-	);
-};
-
-const Users = () => {
-	const { data: users, isLoading } = trpc.useQuery(["user.getAll"]);
-
-	if (isLoading) return <div>Fetching messages...</div>;
-
-	return (
-		<div className="flex flex-col gap-4">
-			{users?.map((user, index) => {
-				return (
-					<div key={index}>
-						<p>
-							User {index + 1}: {user.firstName} {user.lastName}
-						</p>
-						<span>Email: {user.email}</span>
-					</div>
-				);
-			})}
-		</div>
 	);
 };
 

@@ -8,13 +8,18 @@ import superjson from "superjson";
 import type { AppRouter } from "../server/router";
 import "../styles/globals.css";
 
+import Header from "../components/layout/Header";
+
 const MyApp: AppType = ({
 	Component,
 	pageProps: { session, ...pageProps },
 }) => {
 	return (
 		<SessionProvider session={session}>
-			<Component {...pageProps} />
+			<Header />
+			<main className="container mx-auto flex items-center justify-center p-4 bg-teal-900">
+				<Component {...pageProps} />
+			</main>
 		</SessionProvider>
 	);
 };
