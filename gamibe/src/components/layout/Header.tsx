@@ -9,12 +9,12 @@ import { useState } from "react";
 
 function Header(props: Props) {
 	const [open, setOpen] = useState(false);
+	const session = { user: null };
 
 	const links = [
 		{ href: "/expenses", label: "Expenses" },
 		{ href: "/incomes", label: "Incomes" },
 		{ href: "/tables", label: "Tables" },
-		{ href: "/login", label: "Login" },
 	];
 
 	return (
@@ -82,7 +82,8 @@ function Header(props: Props) {
 				</ul>
 
 				<div className="sm:hidden pr-4">
-					<Button link="/login" title="Login" icon="login" />
+					{session.user && <Button link="/logout" title="Logout" icon="" />}
+					{!session.user && <Button link="/login" title="Login" icon="login" />}
 				</div>
 			</nav>
 		</header>

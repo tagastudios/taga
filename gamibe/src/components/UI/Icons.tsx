@@ -9,7 +9,7 @@ const DEFAULT_VALUES = {
 };
 
 type Props = {
-	icon: "login" | "menu";
+	icon: "login" | "menu" | string;
 	size: number;
 	color?: string;
 	fill?: string;

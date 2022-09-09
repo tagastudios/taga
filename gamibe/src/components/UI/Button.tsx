@@ -10,7 +10,7 @@ const DEFAULT_VALUES = {
 
 type Props = {
 	title: string;
-	icon?: "login" | "menu";
+	icon?: "login" | "menu" | string;
 	primary?: string;
 	secondary?: string;
 	link?: string;
