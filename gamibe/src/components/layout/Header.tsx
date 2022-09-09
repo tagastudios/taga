@@ -1,10 +1,7 @@
 import Button from "../UI/Button";
 import Icons from "../UI/Icons";
 
-type Props = {
-	href: string;
-	children: any;
-};
+type Props = {};
 
 import Link from "next/link";
 import { Menu, Transition } from "@headlessui/react";
