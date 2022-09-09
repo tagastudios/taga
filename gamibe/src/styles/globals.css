@@ -23,11 +23,13 @@ div #_next,
 main {
 	background-color: var(--DARK-bg-primary);
 	color: var(--DARK-text-primary);
-	/* width: 100%; */
-	/* height: 100%; */
 }
 
 body {
 	min-height: 100vh;
 	min-height: -webkit-fill-available;
+}
+
+.hidden-normal {
+	display: none;
 }

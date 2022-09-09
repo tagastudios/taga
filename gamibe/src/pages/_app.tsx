@@ -17,7 +17,7 @@ const MyApp: AppType = ({
 	return (
 		<SessionProvider session={session}>
 			<Header />
-			<main className="container mx-auto flex items-center justify-center p-4 bg-teal-900">
+			<main className="container mx-auto flex flex-col items-center justify-center p-4">
 				<Component {...pageProps} />
 			</main>
 		</SessionProvider>

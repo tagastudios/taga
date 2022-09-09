@@ -1,4 +1,5 @@
 import Login from "../icons/Login";
+import Menu from "../icons/Menu";
 
 const DEFAULT_VALUES = {
 	size: 50,
@@ -8,7 +9,7 @@ const DEFAULT_VALUES = {
 };
 
 type Props = {
-	icon?: string;
+	icon: "login" | "menu";
 	size: number;
 	color?: string;
 	fill?: string;
@@ -28,10 +29,15 @@ const Icons = ({ icon, size, color, fill, strokeWidth }: Props) => {
 			</div>
 		);
 
-	if (icon === "dashboard")
+	if (icon === "menu")
 		return (
-			<div>
-				<p>Dashboard</p>
+			<div className={icon ? "pr-2" : ""}>
+				<Menu
+					size={size || DEFAULT_VALUES.size}
+					fillColor={fill || DEFAULT_VALUES.fill}
+					strokeColor={color || DEFAULT_VALUES.color}
+					strokeWidth={strokeWidth || DEFAULT_VALUES.strokeWidth}
+				/>
 			</div>
 		);
 
