@@ -13,6 +13,10 @@
 	--DARK-text-primary: #f4f4f5;
 }
 
+html {
+	height: -webkit-fill-available;
+}
+
 html,
 body,
 div #_next,
@@ -21,9 +25,6 @@ main {
 	color: var(--DARK-text-primary);
 	width: 100%;
 	height: 100%;
-}
-
-main {
 	min-height: 100vh;
 	min-height: -webkit-fill-available;
 }
