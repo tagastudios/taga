@@ -8,11 +8,12 @@ import { prisma } from "../../../server/db/client";
 import { env } from "../../../env/server.mjs";
 
 export const authOptions: NextAuthOptions = {
-	// Include user.id on session
+	// Include entire user from database on session
 	callbacks: {
-		session({ session, user }) {
+		session: ({ session, user }) => {
+			console.log(user);
 			if (session.user) {
-				session.user.id = user.id;
+				session.user = { ...session.user, ...user };
 			}
 			return session;
 		},
@@ -23,13 +24,19 @@ export const authOptions: NextAuthOptions = {
 		GoogleProvider({
 			clientId: env.GOOGLE_CLIENT_ID,
 			clientSecret: env.GOOGLE_CLIENT_SECRET,
+			profile(profile) {
+				return {
+					id: profile.email,
+					firstName: profile.given_name,
+					lastName: profile.family_name,
+					email: profile.email,
+					emailVerified: profile.email_verified,
+					image: profile.picture,
+				};
+			},
 		}),
-		// DiscordProvider({
-		//   clientId: env.DISCORD_CLIENT_ID,
-		//   clientSecret: env.DISCORD_CLIENT_SECRET,
-		// }),
-		// ...add more providers here
 	],
+	secret: env.NEXTAUTH_SECRET,
 };
 
 export default NextAuth(authOptions);

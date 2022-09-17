@@ -14,18 +14,63 @@ model Example {
     id String @id @default(cuid())
 }
 
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+//////////////////////// MAIN CENTRAL SCHEMAS /////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+model User {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    phone     String?
+    role      Role     @default(USER)
+
+    // FROM GAME
+    userPreferences UserPreferences?
+    gamePreferences GamePreferences?
+
+    // FROM FINANCE
+    incomes  Incomes[]
+    Expenses Expenses[]
+    Debts    Debts[]
+    Goals    Goals[]
+
+    // FROM AUTH
+    firstName     String
+    lastName      String
+    email         String    @unique
+    emailVerified Boolean?
+    image         String?
+    accounts      Account[]
+    sessions      Session[]
+}
+
+enum Role {
+    USER
+    VIP
+    ADMIN
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+////////////////////// AUTHENTICATION SCHEMAS /////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
 model Account {
     id                String  @id @default(cuid())
     userId            String
     type              String
     provider          String
     providerAccountId String
-    refresh_token     String? //@db.Text
-    access_token      String? //@db.Text
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
     expires_at        Int?
     token_type        String?
     scope             String?
-    id_token          String? //@db.Text
+    id_token          String? @db.Text
     session_state     String?
     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -40,31 +85,6 @@ model Session {
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model User {
-    id              String           @id @default(cuid())
-    createdAt       DateTime         @default(now())
-    updatedAt       DateTime         @updatedAt
-    firstName       String
-    lastName        String
-    email           String?          @unique
-    phone           String?
-    role            Role?            @relation(references: [id], fields: [roleId]) // Free or Premium or Tier
-    roleId          Int?
-    incomes         Incomes[]
-    userPreferences UserPreferences?
-    gamePreferences GamePreferences?
-    Expenses        Expenses[]
-    Debts           Debts[]
-    Goals           Goals[]
-
-    // FROM AUTH
-    name          String?
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-}
-
 model VerificationToken {
     identifier String
     token      String   @unique
@@ -73,25 +93,31 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
-model Role {
-    id   Int    @id @default(autoincrement())
-    type String @unique
-    User User[]
-}
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+/////////////////////////// GAME SCHEMAS //////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
 model UserPreferences {
     id        Int     @id @default(autoincrement())
-    user      User    @relation(fields: [userId], references: [id])
+    user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId    String  @unique
-    pushEmail Boolean
+    pushEmail Boolean @default(false)
 }
 
 model GamePreferences {
     id       Int    @id @default(autoincrement())
-    user     User   @relation(fields: [userId], references: [id])
+    user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId   String @unique
     nickname String @unique
 }
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+//////////////////////// FINANCE SCHEMAS //////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
 model Categories {
     id       Int        @id @default(autoincrement())
@@ -125,7 +151,7 @@ model Incomes {
     createdAt       DateTime        @default(now())
     updatedAt       DateTime        @updatedAt
     startedAt       DateTime
-    user            User            @relation(fields: [uid], references: [id])
+    user            User            @relation(fields: [uid], references: [id], onDelete: Cascade)
     uid             String
     amount          Float
     title           String
@@ -143,7 +169,7 @@ model Expenses {
     createdAt       DateTime        @default(now())
     updatedAt       DateTime        @updatedAt
     startedAt       DateTime
-    user            User            @relation(fields: [uid], references: [id])
+    user            User            @relation(fields: [uid], references: [id], onDelete: Cascade)
     uid             String
     amount          Float
     title           String
@@ -161,7 +187,7 @@ model Debts {
     createdAt       DateTime        @default(now())
     updatedAt       DateTime        @updatedAt
     startedAt       DateTime
-    user            User            @relation(fields: [uid], references: [id])
+    user            User            @relation(fields: [uid], references: [id], onDelete: Cascade)
     uid             String
     amount          Float
     title           String
@@ -179,7 +205,7 @@ model Goals {
     createdAt       DateTime        @default(now())
     updatedAt       DateTime        @updatedAt
     startedAt       DateTime
-    user            User            @relation(fields: [uid], references: [id])
+    user            User            @relation(fields: [uid], references: [id], onDelete: Cascade)
     uid             String
     amount          Float
     title           String
