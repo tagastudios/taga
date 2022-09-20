@@ -18,6 +18,12 @@ const TestFetch = (props: Props) => {
 				<hr className="border-emerald-500" />
 				<Users />
 			</div>
+
+			<div className="py-5 text-xl max-w-lg overflow-auto">
+				<h2>Sessions:</h2>
+				<hr className="border-emerald-500" />
+				<Protected />
+			</div>
 		</div>
 	);
 };
@@ -39,6 +45,29 @@ const Users = () => {
 					</div>
 				);
 			})}
+		</div>
+	);
+};
+
+const Protected = () => {
+	const {
+		data: session,
+		isLoading,
+		isError,
+	} = trpc.useQuery(["auth.getSession"]);
+
+	if (isLoading) return <div>Loading session...</div>;
+
+	if (isError)
+		return (
+			<div>Sorry, couldn't load data. Error: {JSON.stringify(session)}</div>
+		);
+
+	return (
+		<div>
+			<h1> Protected Route</h1>
+			<hr className="border-emerald-500" />
+			<div>{JSON.stringify(session)}</div>
 		</div>
 	);
 };
